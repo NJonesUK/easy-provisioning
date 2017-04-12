@@ -1,0 +1,227 @@
+---
+# tasks file for kali
+- name: Remove unwanted packages
+  apt:
+    name={{ item }}
+    force=yes
+    purge=yes
+    state=absent
+  with_items: "{{ kali_packages_remove|default([]) }}"
+
+- name: Update packages
+  apt:
+    update_cache=yes
+    upgrade=dist
+    cache_valid_time=86400
+  tags:
+    - update
+
+- name: Install common packages
+  apt:
+    name={{ item }}
+    update_cache=yes
+    cache_valid_time=86400
+    install-recommends=no
+    state=present
+  with_items: "{{ kali_packages|default([]) }}"
+
+- name: Install common pip packages
+  pip:
+    name={{ item }}
+    state=present
+  with_items: "{{ kali_pip_packages|default([]) }}"
+
+- name: Add standard groups
+  group:
+    name={{ item }}
+    state=present
+  with_items: "{{ kali_groups|default([]) }}"
+  tags:
+    - usermanagement
+
+- name: Add users
+  user:
+    name={{ item.name }}
+    comment="{{ item.comment }}"
+    shell={{ item.shell }}
+    groups={{ ",".join(item.groups) }}
+    state=present
+  with_items: "{{ kali_users|default([]) }}"
+  tags:
+    - usermanagement
+
+- name: Install common git repositories
+  git:
+    repo={{ item.repo }}
+    dest={{ item.dest }}
+    accept_hostkey=yes
+    version={{ item.version|default("master") }}
+    force={{ item.force|default("no") }}
+  with_items:
+    - "{{ kali_git_repositories|default([]) }}"
+  # local modifications allowed
+  ignore_errors: yes
+
+- name: Create common (empty) files / directories
+  file:
+    path={{ item.path }}
+    mode={{ item.mode }}
+    owner={{ item.owner|default("root") }}
+    group={{ item.group|default("root") }}
+    state={{ item.state|default("directory") }}
+  with_items: "{{ kali_directories|default([]) }}"
+  tags:
+    - files
+
+- name: Copy common files
+  copy:
+    src={{ item.src }}
+    dest={{ item.dest }}
+    mode={{ item.mode }}
+    force={{ item.force|default("yes") }}
+  with_items:
+    - "{{ kali_files|default([]) }}"
+  tags:
+    - files
+
+- name: Apply / deploy common templates
+  template:
+    src={{ item.src }}
+    dest={{ item.dest }}
+    mode={{ item.mode }}
+  with_items:
+    - "{{ kali_templates|default([]) }}"
+  tags:
+    - templates
+
+- name: Allow ssh through firewall
+  ufw: rule=allow proto=tcp port={{ item }}
+  notify:
+    - reload ufw
+  tags:
+    - ssh
+  with_items: "{{ kali_ufw_tcp_allow|default([22]) }}"
+
+- name: Make sure firewall is up and running, and denying
+  ufw: state=enabled policy=deny
+  notify:
+    - reload ufw
+  tags:
+    - ssh
+
+- name: Remove insufficient moduli settings
+  lineinfile:
+    dest=/etc/ssh/moduli
+    regexp=" {{ item }} "
+    line="{{ item }}"
+    state=absent
+  with_items: "{{ sshd_moduli_remove|default([]) }}"
+  notify:
+    - restart sshd
+  tags:
+    - ssh
+
+- name: Set hostname
+  hostname: name="{{ hostname|default("kaliped") }}"
+  tags:
+    - hostname
+
+- name: Check current timezone
+  shell: cat /etc/timezone
+  register: current_zone
+  changed_when: current_zone.stdout != "{{ timezone }}"
+  tags:
+    - timezone
+
+- name: Modify timezone variables
+  copy:
+    content={{ timezone }}
+    dest=/etc/timezone
+    owner=root
+    group=root
+    mode=0644
+  when: current_zone.stdout != "{{ timezone }}"
+  notify:
+    - update timezone
+  tags:
+    - timezone
+
+- name: Allow passwordless sudo for sudo users
+  lineinfile:
+    "dest=/etc/sudoers
+    state=present
+    regexp='^{{ item }}'
+    insertafter=EOF
+    line='{{ item }} ALL=(ALL) NOPASSWD: ALL'"
+  with_items: "{{ kali_sudo_users|default([]) }}"
+  tags:
+    - usermanagement
+
+- name: Add public SSH keys per user
+  authorized_key:
+    user={{ item.name }}
+    key="{{ item.ssh_key }}"
+  with_items: "{{ kali_users|default([]) }}"
+  tags:
+    - usermanagement
+
+- name: Install git repos per user
+  git:
+    repo={{ item[1].src }}
+    dest={{ item[1].dest }}
+    depth=1
+    accept_hostkey=yes
+    version={{ item[1].version }}
+  become_user: "{{ item[0].name }}"
+  become: yes
+  with_subelements:
+    - "{{ kali_users|default([]) }}"
+    - repos
+  tags:
+    - usermanagement
+
+- name: Set correct ownership for personal git repos
+  file: name={{ item[1].dest }}
+        owner={{ item[0].name }}
+        group={{ item[0].name }}
+        recurse=yes
+  with_subelements:
+    - "{{ kali_users|default([]) }}"
+    - repos
+  tags:
+    - usermanagement
+
+- name: Execute installers for users
+  command: "{{ item[1].command }}"
+  become: yes
+  become_user: "{{ item[0].name }}"
+  with_subelements:
+    - "{{ kali_users|default([]) }}"
+    - installers
+  tags:
+    - usermanagement
+
+- name: Disable grub timeout
+  lineinfile:
+    dest=/etc/default/grub
+    regexp="^{{ item.name }}="
+    line="{{ item.name }}={{ item.value }}"
+    state=present
+  with_items: "{{ grub_settings|default([]) }}"
+  register: grub_config
+  tags:
+    - grub
+
+- name: Reload grub config
+  command: update-grub 2>/dev/null
+  when: grub_config | changed
+  tags:
+    - grub
+
+- name: Run post-provision commands
+  command: "{{ item }}"
+  with_items: "{{ kali_commands|default([]) }}"
+  tags:
+    - commands
+
+#- include: viper-install.yml

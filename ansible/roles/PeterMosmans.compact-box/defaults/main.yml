@@ -1,0 +1,33 @@
+---
+# defaults file for compact-box
+keep_locales:
+  - en_US
+unnecessary_packages:
+  - bluez
+  - build-essential
+  - bzip2
+  - console-setup
+  - cpp
+  - crda
+  - cups
+  - discover-data
+  - dkms
+  - dpkg-dev
+  - gcc
+  - iso-codes
+  - iw
+  - laptop-detect
+  - libiw30
+  - locales
+  - make
+  - man-db
+  - manpages
+  - nano
+  - shared-mime-info
+  - task-english
+  - task-laptop
+  - util-linux-locales
+  - wireless-regdb
+  - wireless-tools
+  - wpasupplicant
+  - xkb-data

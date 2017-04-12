@@ -1,6 +1,4 @@
 ## Ansible
-# persistent storage
-ansible/roles/*
 # personalized settings
 ansible/group_vars/personal.yml
 ## Packer

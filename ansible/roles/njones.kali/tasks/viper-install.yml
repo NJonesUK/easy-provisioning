@@ -1,0 +1,61 @@
+- name: Update packages
+  apt:
+    update_cache=yes
+    upgrade=dist
+    cache_valid_time=86400
+  tags:
+    - update
+
+- name: Clone Viper repository
+  git:
+    repo=https://github.com/viper-framework/viper.git
+    dest=/tools/viper
+    accept_hostkey=yes
+    version=master
+
+- name: Install Viper apt requirements
+  apt:
+    name="{{ item }}"
+    update_cache=yes
+    cache_valid_time=86400
+    install-recommends=no
+    state=present
+  with_items:
+    - gcc 
+    - python-dev 
+    - python-pip
+
+- name: Install Viper pip requirements
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - SQLAlchemy 
+    - PrettyTable 
+    - python-magic
+  become: yes
+
+- name: Install Viper pip requirements from requirements.txt
+  pip:
+    requirements: /tools/viper/requirements.txt
+
+- name: Clone ssdeep mirror
+  git:
+    repo=https://github.com/jollheef/ssdeep.git
+    dest=/tools/viper/ssdeep
+    accept_hostkey=yes
+    version=master
+
+- name: Configure ssdeep
+  command: '"{{ item }}" chdir=/myhome/ffmpeg-2.8.2/'
+  with_items:
+    - ./configure
+
+- name: Build ssdeep
+  make:
+    chdir: /tools/viper/ssdeep
+
+- name: Install ssdeep
+  make:
+    chdir: /tools/viper/ssdeep
+    target: install
+  become: yes

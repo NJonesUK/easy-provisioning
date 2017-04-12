@@ -1,0 +1,168 @@
+---
+# file: roles/apache2/tasks/main.yml
+
+- name: Use correct Apache security configuration filename for Ubuntu and Debian
+  set_fact: apache2_sec_conf="{{ '/etc/apache2/conf-available/security.conf' }}"
+  when: ((ansible_distribution == 'Ubuntu') and (ansible_distribution_version >= '12.04' )) or ((ansible_distribution == 'Debian') and (ansible_distribution_version >= '8'))
+
+- name: Use default Apache security configuration filename for other distros
+  set_fact: apache2_sec_conf="{{ '/etc/apache2/conf.d/security.conf' }}"
+  when: apache2_sec_conf is not defined
+
+- name: Use correct Apache default sitename
+  set_fact: apache2_default_site="{{ '000-default' if ((ansible_distribution == 'Debian') and (ansible_distribution_version >= '8')) else 'default' }}"
+
+- name: Install apache2
+  apt:
+    name=apache2
+    cache_valid_time=86400
+    force=yes
+    install-recommends=no
+    update_cache=yes
+    state=present
+
+- block:
+  - name: Disable the default sites
+    command:
+      a2dissite {{ apache2_default_site }}
+      removes=/etc/apache2/sites-enabled/{{ apache2_default_site }}.conf
+    notify: 
+      - restart apache2
+
+  - name: Remove content of default site
+    file: path={{ www_folder }}/html state=absent
+
+  when: apache2_default is not defined or (apache2_default is defined and not apache2_default)
+
+- block:
+  - stat: path="{{ apache2_sec_conf }}"
+    register: sec_conf
+  
+  - name: Harden Apache security configuration
+    lineinfile:
+      dest="{{ apache2_sec_conf }}"
+      regexp="^{{ item.name }}"
+      line="{{ item.name }} {{ item.value }}"
+      state=present
+    with_items: "{{ apache2_security_conf }}"
+    when: sec_conf.stat.exists == True
+    notify:
+      - restart apache2
+
+  - name: Enable Apache security configuration
+    command:
+      a2enconf security.conf
+      creates=/etc/apache2/conf-enabled/security.conf
+    notify:
+      - reload apache2
+    when: sec_conf.stat.exists == True
+
+  when: apache2_security is defined or (apache2_security is defined and apache2_security)
+  
+- name: Disable Apache modules
+  command:
+    a2dismod -f {{ item }}
+    removes=/etc/apache2/mods-enabled/{{ item }}
+#  apache2_module:
+#    name={{ item }}
+#    force_disable=yes
+#    state=absent
+    
+  with_items: "{{ apache2_modules_disabled|default([]) }}"
+  notify: 
+    - restart apache2
+
+- name: Enable Apache modules
+  apache2_module:
+    name={{ item }}
+    state=present
+  with_items: "{{ apache2_modules_enabled|default([]) }}"
+  notify: 
+    - restart apache2
+
+- name: Deploy Apache configuration files
+  copy:
+    src={{ item.src }}/{{ item.name }}
+    dest=/etc/apache2/sites-available/{{ item.name }}
+    owner=root
+    group=root
+    mode=640
+  with_items: "{{ apache2_websites|default([]) }}"
+
+- name: Deploy SSL certificates
+  copy:
+    src={{ protected_storage }}/{{ item }}.cer
+    dest=/etc/ssl/certs/{{ item }}.cer
+    owner=root
+    group=root
+    mode=644
+    force=yes
+  with_items: "{{ ssl_certificates|default([]) }}"
+
+- name: Deploy private keys
+  copy:
+    src={{ protected_storage }}/{{ item }}.key
+    dest=/etc/ssl/private/{{ item }}.key
+    owner=root
+    group=root
+    mode=600
+    force=yes
+  with_items: "{{ ssl_certificates|default([]) }}"
+
+- block:
+  - name: Install php5
+    apt:
+      name=php5
+      update_cache=yes
+      cache_valid_time=86400
+      install-recommends=no
+      state=present
+
+  - name: Apply and deploy PHP template
+    template:
+      src={{ item.src }}
+      dest={{ item.dest }}
+      mode={{ item.mode }}
+    with_items:
+      - src: php.ini.j2
+        dest: /etc/php5/apache2/php.ini
+        mode: "0644"
+    tags:
+      - templates
+
+  # - name: Harden PHP configuration
+  #   lineinfile:
+  #     dest=/etc/php5/apache2/php.ini
+  #     regexp="^{{ item.name }}"
+  #     line="{{ item.name }} = {{ item.value }}"
+  #     state=present
+  #   with_items: "{{ apache2_php_ini }}"
+  #   notify:
+  #     - restart apache2
+
+  - name: Enable php5 module
+    apache2_module: name=php5 state=present
+    notify:
+      - restart apache2
+
+  when: apache2_php is defined and apache2_php
+  
+- name: Enable websites
+  command:
+    a2ensite {{ item.name }}
+    creates=/etc/apache2/sites-enabled/{{ item.name }}
+  with_items: "{{ apache2_websites|default([]) }}"
+  notify:
+    - reload apache2
+
+- name: Allow http and https through firewall
+  ufw:
+    rule=allow
+    proto=tcp
+    port={{ item }}
+  with_items:
+    - 80
+    - 443
+  notify:
+    - reload ufw
+  ignore_errors: yes
