@@ -6,10 +6,10 @@
         "guest_additions_mode": "upload",
         "guest_additions_path": "VBoxGuestAdditions.iso",
         "iso_urls": [
-            "../ISO/debian-8.6.0-amd64-netinst.iso",
-            "http://cdimage.debian.org/debian-cd/8.6.0/amd64/iso-cd/debian-8.6.0-amd64-netinst.iso"
+            "../ISO/debian-8.8.0-amd64-netinst.iso",
+            "http://cdimage.debian.org/debian-cd/8.8.0/amd64/iso-cd/debian-8.8.0-amd64-netinst.iso"
         ],
-        "iso_checksum": "9479c5c2df72ae3878116c43fb42eefae53d1fe363ce514a6afc8289064b9f5f",
+        "iso_checksum": "2c07ff8cc766767610566297b8729740f923735e790c8e78b718fb93923b448e",
         "iso_checksum_type": "sha256",
         "ssh_password": "vagrant",
         "ssh_username": "root",
@@ -27,11 +27,12 @@
             ["modifyvm", "{{.Name}}", "--rtcuseutc", "on"],
             ["modifyvm", "{{.Name}}", "--vram", "16"],
             ["modifyvm", "{{.Name}}", "--vrde", "off"],
-            ["modifyvm", "{{.Name}}", "--nictype1", "82545EM"],
+            ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
             ["storagectl", "{{.Name}}", "--name", "SATA Controller", "--hostiocache", "on"]
            ],
         "boot_wait": "5s",
-    "boot_command": [
+        "post_shutdown_delay": "30s",
+        "boot_command": [
         "<esc><wait>",
         "auto <wait>",
         "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/jessie.cfg <wait>",
