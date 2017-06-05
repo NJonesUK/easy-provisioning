@@ -29,6 +29,8 @@
         - cryptography
         - paramiko
         - bs4
+        - sslyze
+        - xlrd
     - kali_git_repositories:
         - repo: https://github.com/PeterMosmans/security-scripts
           dest: /tools/security-scripts
@@ -40,6 +42,22 @@
           dest: /tools/SecLists
         - repo: https://github.com/trustedsec/egressbuster.git
           dest: /tools/egressbuster
-        - repo: 
+        - repo: https://github.com/manwhoami/Bella.git
+          dest: /tools/bella
+        - repo: https://github.com/ShawnDEvans/smbmap.git
+          dest: /tools/smbmap
+        - repo: https://github.com/GDSSecurity/Windows-Exploit-Suggester.git
+          dest: /tools/windows-exploit-suggester
+        - repo: https://github.com/EmpireProject/Empire.git
+          dest: /tools/empire
+        - repo: https://github.com/SpiderLabs/Responder.git
+          dest: /tools/responder
+    - kali_binary_downloads:
+        - url: http://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip
+          dest: /tools/binaries/wce_v1_42beta_x64.zip
+        - url: http://www.ampliasecurity.com/research/wce_v1_42beta_x32.zip
+          dest: /tools/binaries/wce_v1_42beta_x32.zip
+        - url: http://www.oxid.it/downloads/ca_setup.exe
+          dest: /tools/binaries/ca_setup.exe
     - kali_ufw_tcp_allow:
         - 22

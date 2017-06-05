@@ -20,9 +20,9 @@ This repository contains (example) scripts to setup an Ansible server, and Kali 
 1. Make sure that the following tools are installed, up-to-date and can be executed from the command line.
 
   **packer** : [https://packer.io/](https://packer.io/) (to build operating systems unattended)
-  
+
   **Vagrant** : [https://www.vagrantup.com](https://www.vagrantup.com) (to configure and spin up virtual machines)
-  
+
   **VirtualBox** : [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) (the virtualization environment)
 2. Start your favorite shell (e.g. zsh or Bash), and verify the tools:
 
@@ -65,7 +65,7 @@ First, let Packer create a VirtualBox installation of Kali 2016.2 that can be im
 
 `pushd packer && packer build kali-2016.2.json`
 
-The build process will create an OVA file in the directory `output-kali` that can be directly imported into VirtualBox. Note that the root password is `r00tme`, the SSH server will be enabled on boot and allows root to log in: In other words, it's insecure. That's why it's important to harden it using Ansible.
+The build process will create an OVA file in the directory `output-kali` that can be directly imported into VirtualBox. Note that the root password is `toor`, the SSH server will be enabled on boot and allows root to log in: In other words, it's insecure. That's why it's important to harden it using Ansible.
 
 ##### 2b: Run Kali as VirtualBox appliance
 Import the box and create a mapping so that port 22 (the SSH server) can be accessed from the Ansible server:
@@ -76,7 +76,7 @@ Import the box and create a mapping so that port 22 (the SSH server) can be acce
 Spin up an Ansible box (see the first example) and check if you can connect to Kali from Ansible. Note that the server can access Kali on the mapped port (221) of **the gateway address**.
 For this, add the host to `/etc/ansible/hosts` file.
 
-First, connect to `ansible-server` by using `vagrant ssh` in 
+First, connect to `ansible-server` by using `vagrant ssh` in
 
 `echo "kali ansible_host=$(sudo route -n|awk '/UG/{print $2}') ansible_port=221 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'">> /etc/ansible/hosts`
 The `/etc/ansible` folder is mapped to the `ansible` folder of the repository and is therefore persistent across Vagrant reboots/restarts.

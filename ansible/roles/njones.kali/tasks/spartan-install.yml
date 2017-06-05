@@ -1,0 +1,24 @@
+- name: Clone SPartan repository
+  git:
+    repo=https://github.com/sensepost/SPartan.git
+    dest=/tools/spartan
+    accept_hostkey=yes
+    version=master
+
+- name: Install SPartan apt requirements
+  apt:
+    name="{{ item }}"
+    update_cache=yes
+    cache_valid_time=86400
+    install-recommends=no
+    state=present
+  with_items:
+    - gcc
+    - python-dev
+    - python-pip
+
+- name: Install SPartan pip requirements from requirements.txt
+  pip:
+    requirements: /tools/spartan/requirements.txt
+  become: yes
+

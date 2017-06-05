@@ -6,15 +6,13 @@ kali_users:
    comment: "Nick Jones"
    groups:
      - git
-     - sudo
+     - sudo 
    shell: "/bin/zsh"
    ssh_key: https://github.com/njonesuk.keys
    # repos:
    #   - src: https://github.com/njonesuk/dotfiles
    #     dest: /home/apenut/.dotfiles
    #     version: master
-   installers:
-     - command: /home/apenut/.dotfiles/installer.sh
 # Will be used by the ansible-server Vagrant box
 vagrant_private: /usr/myuser/myprivate/folder
 vagrant_backup: /var/backup

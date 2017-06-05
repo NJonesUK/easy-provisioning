@@ -1,0 +1,26 @@
+- name: Add Kaitai apt repository
+  apt_repository:
+    repo: deb https://dl.bintray.com/kaitai-io/debian jessie main
+    state: present
+
+- name: Add Kaitai apt key
+  apt_key:
+    id: 379CE192D401AB61
+    keyserver: hkp://pool.sks-keyservers.net
+    state: present
+
+- name: Update packages
+  apt:
+    update_cache=yes
+    upgrade=dist
+    cache_valid_time=86400
+  tags:
+    - update
+
+- name: Install Kaitai Struct Compiler via apt
+  apt:
+    name=kaitai-struct-compiler
+    update_cache=yes
+    cache_valid_time=86400
+    install-recommends=no
+    state=present
