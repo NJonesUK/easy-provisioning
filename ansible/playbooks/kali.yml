@@ -42,8 +42,6 @@
           dest: /tools/SecLists
         - repo: https://github.com/trustedsec/egressbuster.git
           dest: /tools/egressbuster
-        - repo: https://github.com/manwhoami/Bella.git
-          dest: /tools/bella
         - repo: https://github.com/ShawnDEvans/smbmap.git
           dest: /tools/smbmap
         - repo: https://github.com/GDSSecurity/Windows-Exploit-Suggester.git

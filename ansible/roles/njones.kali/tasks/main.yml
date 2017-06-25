@@ -62,13 +62,12 @@
   # local modifications allowed
   ignore_errors: yes
 
-- name: Download default binaries
-  get_url:
-    url={{ item.url }}
-    dest={{ item.dest }}
-    mode: 0660
-    with_items:
-      - "{{ kali_binary_downloads|default([]) }}"
+# - name: Download default binaries
+#   get_url:
+#     url={{ item.url }}
+#     dest={{ item.dest }}
+#     with_items:
+#       - "{{ kali_binary_downloads|default([]) }}"
 
 - name: Create common (empty) files / directories
   file:
@@ -233,7 +232,9 @@
     - commands
 
 #- include: viper-install.yml
- - include: routersploit-install.yml
- - include: det-install.yml
- - include: redsnarf-install.
- - include: sparta-install.yml
+- include: routersploit-install.yml
+- include: det-install.yml
+- include: redsnarf-install.yml
+- include: sparta-install.yml
+- include: kaitai-struct-install.yml
+- include: spartan-install.yml
