@@ -1,2 +1,2 @@
 [personal]
-localhost ansible_connection=local
+kali ansible_host=172.16.28.209 ansible_user=root

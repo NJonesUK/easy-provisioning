@@ -1,0 +1,25 @@
+- name: Clone RedSnarf repository
+  git:
+    repo=https://github.com/nccgroup/redsnarf.git
+    dest=/tools/redsnarf
+    accept_hostkey=yes
+    version=master
+
+- name: Install RedSnarf pip requirements
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - netaddr
+    - termcolor
+  become: yes
+
+
+- name: Install RedSnarf pip requirements from requirements.txt
+  pip:
+    requirements: /tools/routersploit/requirements.txt
+
+- name: Clone creddump7
+  git:
+    repo=https://github.com/Neohapsis/creddump7.git
+    dest=/tools/creddump7
+

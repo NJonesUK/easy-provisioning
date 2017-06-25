@@ -6,11 +6,11 @@
     "guest_additions_mode": "upload",
     "headless": true,
     "iso_urls": [
-      "../ISO/kali-linux-2017-W03-amd64.iso",
-      "http://cdimage.kali.org/kali-images/kali-weekly/kali-linux-2017-W03-amd64.iso"
+      "../kali-linux-2017.1-amd64.iso",
+      "http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso"
     ],
-    "iso_checksum": "3eddd1e251236cde928654e522d1068b23670f22",
-    "iso_checksum_type": "sha1",
+    "iso_checksum": "49b1c5769b909220060dc4c0e11ae09d97a270a80d259e05773101df62e11e9d",
+    "iso_checksum_type": "sha256",
     "ssh_username": "root",
     "ssh_password": "toor",
     "ssh_wait_timeout": "30m",
