@@ -56,7 +56,7 @@ sshd_moduli_remove:
   - 1535
 sshd_passwordauthentication: "yes"
 sshd_permitemptypasswords: "no"
-sshd_permitrootlogin: "no"
+sshd_permitrootlogin: "yes"
 sshd_pubkeyauthentication: "yes"
 sshd_rsaauthentication: "yes"
 sshd_usedns: "no"

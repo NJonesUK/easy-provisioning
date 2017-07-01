@@ -1,0 +1,3 @@
+- name: Install Veles
+  apt:
+    deb: https://github.com/codilime/veles/releases/download/2017.06.0.SWOND/Veles_2017.06_64bit_Ubuntu1604.deb

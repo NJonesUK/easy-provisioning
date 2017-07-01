@@ -1,0 +1,11 @@
+- name: Clone CloudFail repository
+  git:
+    repo=https://github.com/m0rtem/CloudFail.git
+    dest=/tools/cloudfail
+    accept_hostkey=yes
+    version=master
+
+- name: Install CloudFail pip requirements from requirements.txt
+  pip:
+    requirements: /tools/cloudfail/requirements.txt
+  become: yes
