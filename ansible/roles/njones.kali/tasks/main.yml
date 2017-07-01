@@ -53,7 +53,7 @@
 - name: Install common git repositories
   git:
     repo={{ item.repo }}
-    dest={{ item.dest }}
+    dest={{kali_tool_dir}}/{{ item.dest }}
     accept_hostkey=yes
     version={{ item.version|default("master") }}
     force={{ item.force|default("no") }}
