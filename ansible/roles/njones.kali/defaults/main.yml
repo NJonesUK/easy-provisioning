@@ -1,34 +1,5 @@
 ---
 # defaults file for kali
-kali_groups:
-  - git
-  - sudo
-kali_packages:
-  - aptitude
-  - ca-certificates
-  - curl
-  - docker
-  - docker-compose
-  - git
-  - libssl-dev
-  - libffi-dev
-  - locate
-  - lsof
-  - nmap
-  - ntp
-  - openssl
-  - python-dev
-  - python-pip  
-  - python-setuptools
-  - sudo
-  - tmux
-  - ufw
-  - unzip
-  - wireshark
-  - zsh
-kali_packages_remove:
-  - crda
-  - cups
 kali_templates:
   - src: hosts.j2
     dest: /etc/hosts

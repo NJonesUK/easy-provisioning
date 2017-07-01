@@ -1,0 +1,138 @@
+vars:
+  kali_tool_dir: /tools
+  - kali_directories:
+      - path: {{ kali_tool_dir }}
+        mode: "2770"
+        owner: root
+        group: git
+      - path: /docs/
+        mode: "2770"
+        owner: root
+        group: git
+  kali_groups:
+    - git
+    - sudo
+  kali_packages:
+    - aptitude
+    - ca-certificates
+    - curl
+    - docker
+    - docker-compose
+    - git
+    - libssl-dev
+    - libffi-dev
+    - locate
+    - lsof
+    - nmap
+    - ntp
+    - openssl
+    - python-dev
+    - python-pip
+    - python-setuptools
+    - rsh-client
+    - sudo
+    - tmux
+    - ufw
+    - unzip
+    - wireshark
+    - zsh
+  kali_packages_remove:
+    - crda
+    - cups
+  - kali_pip_packages:
+      # for analyze_hosts.py
+      - ansible
+      - awsscout2
+      - bs4
+      - cryptography
+      - paramiko
+      - python-nmap
+      - python-wappalyzer
+      - requests
+      - scapy
+      - sslyze
+      - xlrd
+  - kali_git_repositories:
+      - repo: https://github.com/PeterMosmans/security-scripts
+        dest: security-scripts
+      - repo: https://github.com/drwetter/testssl.sh
+        dest: testssl.sh
+      - repo: https://github.com/PowerShellMafia/PowerSploit.git
+        dest: PowerSploit
+      - repo: https://github.com/danielmiessler/SecLists.git
+        dest: SecLists
+      - repo: https://github.com/trustedsec/egressbuster.git
+        dest: egressbuster
+      - repo: https://github.com/ShawnDEvans/smbmap.git
+        dest: smbmap
+      - repo: https://github.com/GDSSecurity/Windows-Exploit-Suggester.git
+        dest: windows-exploit-suggester
+      - repo: https://github.com/EmpireProject/Empire.git
+        dest: empires
+      - repo: https://github.com/SpiderLabs/Responder.git
+        dest: responder
+      - repo: https://github.com/PyroTek3/PowerShell-AD-Recon.git
+        dest: PowerShell-AD-Recon
+      - repo: https://github.com/NetSPI/PowerUpSQL.git
+        dest: PowerUpSQL
+      - repo: https://github.com/besimorhino/powercat.git
+        dest: powercat
+      - repo: https://github.com/samratashok/nishang.git
+        dest: nishang
+      - repo: https://github.com/Kevin-Robertson/Inveigh.git
+        dest: Inveigh
+      - repo: https://github.com/nettitude/PoshC2.git
+        dest: PoshC2
+      - repo: https://github.com/leechristensen/UnmanagedPowerShell
+        dest: UnmanagedPowerShell
+      - repo: https://github.com/Kevin-Robertson/Invoke-TheHash.git
+        dest: Invoke-TheHash
+      - repo: https://github.com/iagox86/dnscat2.git
+        dest: dnscat2
+      - repo: https://github.com/bidord/pykek.git
+        dest: pykek
+      - repo: https://github.com/ernw/net.tcp-proxy.git
+        dest: net.tcp-proxy
+      - repo: https://github.com/nccgroup/kube-auto-analyzer.git
+        dest: kube-auto-analyzer
+      - repo: https://github.com/nccgroup/featherduster.git
+        dest: featherduster.git
+      - repo: https://github.com/nccgroup/wssip.git
+        dest: wssip
+      - repo: https://github.com/jaredhaight/PSAttack.git
+        dest: PSAttack
+      - repo: https://github.com/nidem/kerberoast.git
+        dest: kerberoast.git
+      - repo: https://github.com/putterpanda/mimikittenz.git
+        dest: mimikittenz
+      - repo: https://github.com/Shellntel/luckystrike.git
+        dest: luckystrike
+      - repo: https://github.com/Shellntel/websocket_egress.git
+        dest: websocket_egress
+      - repo: https://github.com/Shellntel/scripts.git
+        dest: shellntl-scripts
+      - repo: https://github.com/dafthack/HostRecon.git
+        dest: hostrecon
+      - repo: https://github.com/fullmetalcache/PowerLine.git
+        dest: PowerLine
+      - repo: https://github.com/dafthack/MailSniper.git
+        dest: mailsniper
+      - repo: https://github.com/nccgroup/Winpayloads.git
+        dest: winpayloads
+      - repo: https://github.com/mwrlabs/peas.git
+        dest: peas
+  - kali_git_info_repositories:
+      # INFORMATIONAL
+      - repo: https://github.com/felixgr/secure-ios-app-dev.git
+        dest: /docs/secure-ios-app-dev.git
+      - repo: https://github.com/GDSSecurity/Docker-Secure-Deployment-Guidelines.git
+        dest: /docs/docker-secure-deployment-guidelines
+  - kali_binary_downloads:
+      - url: http://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip
+        dest: binaries/wce_v1_42beta_x64.zip
+      - url: http://www.ampliasecurity.com/research/wce_v1_42beta_x32.zip
+        dest: binaries/wce_v1_42beta_x32.zip
+      - url: http://www.oxid.it/downloads/ca_setup.exe
+        dest: binaries/ca_setup.exe
+      - url: https://www.christophertruncer.com/InstallMe/EyeWitness.zip
+        dest: binaries/EyeWitness.zip

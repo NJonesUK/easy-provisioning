@@ -1,0 +1,11 @@
+- name: Clone PuPY repository
+  git:
+    repo=https://github.com/n1nj4sec/pupy.git
+    dest=/tools/pupy
+    accept_hostkey=yes
+    version=master
+
+- name: Install PuPY pip requirements from requirements.txt
+  pip:
+    requirements: /tools/pupy/pupy/requirements.txt
+  become: yes

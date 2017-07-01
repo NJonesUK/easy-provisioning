@@ -4,8 +4,6 @@
   become: yes
   become_method: sudo
   roles:
-    # - role: PeterMosmans.virtualbox-guest
-    #   tags: virtualbox
     - role: njones.kali
       tags: kali
   vars:
@@ -26,7 +24,7 @@
         - python-wappalyzer
         - scapy
         - ansible
-        - cryptography==1.9
+        - cryptography
         - paramiko
         - bs4
         - sslyze
@@ -34,8 +32,8 @@
     - kali_git_repositories:
         - repo: https://github.com/PeterMosmans/security-scripts
           dest: /tools/security-scripts
-        - repo: https://github.com/drwetter/testssl.sh.git
-          dest: /tools/testssl-sh
+        - repo: https://github.com/drwetter/testssl.sh
+          dest: /tools/testssl.sh
         - repo: https://github.com/PowerShellMafia/PowerSploit.git
           dest: /tools/PowerSploit
         - repo: https://github.com/danielmiessler/SecLists.git
@@ -46,12 +44,10 @@
           dest: /tools/smbmap
         - repo: https://github.com/GDSSecurity/Windows-Exploit-Suggester.git
           dest: /tools/windows-exploit-suggester
+        - repo: https://github.com/drwetter/testssl.sh.git
+          dest: /tools/testssl.sh
         - repo: https://github.com/PenturaLabs/Linux_Exploit_Suggester.git
           dest: /tools/linux-exploit-suggester
-        - repo: https://github.com/EmpireProject/Empire.git
-          dest: /tools/empire
-        - repo: https://github.com/SpiderLabs/Responder.git
-          dest: /tools/responder
         - repo: https://github.com/fuzzdb-project/fuzzdb.git
           dest: /tools/fuzzdb
         - repo: https://github.com/maldevel/PenTestKit.git
