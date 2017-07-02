@@ -1,5 +1,8 @@
----
 # tasks file for kali
+- name: Including git repos etc
+  include_vars:
+    file: main.yml
+
 - name: Remove unwanted packages
   apt:
     name={{ item }}
@@ -12,7 +15,7 @@
   apt:
     update_cache=yes
     upgrade=dist
-    cache_valid_time=86400
+    cache_valid_time=3600
   tags:
     - update
 
@@ -20,7 +23,7 @@
   apt:
     name={{ item }}
     update_cache=yes
-    cache_valid_time=86400
+    cache_valid_time=3600
     install-recommends=no
     state=present
   with_items: "{{ kali_packages|default([]) }}"
@@ -50,6 +53,14 @@
 #   tags:
 #     - usermanagement
 
+- name: Create folders
+  file:
+    path={{ item }}
+    state=directory
+    mode=0660
+  with_items:
+    - "{{ kali_directories|default([]) }}"
+
 - name: Install common git repositories
   git:
     repo={{ item.repo }}
@@ -64,27 +75,27 @@
 
 - name: Create binaries folder
   file:
-    path: /tools/binaries
-    state: directory
-    mode: 0660
+    path={{ kali_tool_dir }}/binaries
+    state=directory
+    mode=0660
 
 - name: Download default binaries
   get_url:
     url={{ item.url }}
-    dest={{ item.dest }}
+    dest={{ kali_tool_dir }}/{{ item.dest }}
   with_items:
     - "{{ kali_binary_downloads|default([]) }}"
 
-- name: Create common (empty) files / directories
-  file:
-    path={{ item.path }}
-    mode={{ item.mode }}
-    owner={{ item.owner|default("root") }}
-    group={{ item.group|default("root") }}
-    state={{ item.state|default("directory") }}
-  with_items: "{{ kali_directories|default([]) }}"
-  tags:
-    - files
+# - name: Create common (empty) files / directories
+#   file:
+#     path={{ item.path }}
+#     mode={{ item.mode }}
+#     owner={{ item.owner|default("root") }}
+#     group={{ item.group|default("root") }}
+#     state={{ item.state|default("directory") }}
+#   with_items: "{{ kali_directories|default([]) }}"
+#   tags:
+#     - files
 
 - name: Copy common files
   copy:
@@ -125,7 +136,7 @@
 - name: Remove insufficient moduli settings
   lineinfile:
     dest=/etc/ssh/moduli
-    regexp=" {{ item }} "
+    regexp="{{ item }}"
     line="{{ item }}"
     state=absent
   with_items: "{{ sshd_moduli_remove|default([]) }}"
@@ -229,9 +240,10 @@
 - include: cloudfail-install.yml
 - include: det-install.yml
 - include: kaitai-struct-install.yml
+- include: pupy-install.yml
 - include: redsnarf-install.yml
 - include: routersploit-install.yml
 - include: sparta-install.yml
 - include: spartan-install.yml
 - include: veles-install.yml
-# - include: viper-install.yml
+- include: viper-install.yml
