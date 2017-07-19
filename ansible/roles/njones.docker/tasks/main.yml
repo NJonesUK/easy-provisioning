@@ -10,7 +10,6 @@
     - gnupg2
     - software-properties-common
 
-
 - name: Add Docker apt key
   apt_key:
     url: https://download.docker.com/linux/debian/gpg

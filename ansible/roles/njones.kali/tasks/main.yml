@@ -53,13 +53,13 @@
 #   tags:
 #     - usermanagement
 
-- name: Create folders
-  file:
-    path={{ item }}
-    state=directory
-    mode=0660
-  with_items:
-    - "{{ kali_directories|default([]) }}"
+#- name: Create folders
+#  file:
+#    path={{ item }}
+#    state=directory
+#    mode=0660
+#  with_items:
+#    - "{{ kali_directories|default([]) }}"
 
 - name: Install common git repositories
   git:
@@ -240,10 +240,11 @@
 - include: cloudfail-install.yml
 - include: det-install.yml
 - include: kaitai-struct-install.yml
-- include: pupy-install.yml
+#- include: pupy-install.yml
 - include: redsnarf-install.yml
 - include: routersploit-install.yml
 - include: sparta-install.yml
 - include: spartan-install.yml
+- include: sublimetext-install.yml
 - include: veles-install.yml
-- include: viper-install.yml
+#- include: viper-install.yml
