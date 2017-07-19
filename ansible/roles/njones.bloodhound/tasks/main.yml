@@ -1,0 +1,4 @@
+- name: Download Bloodhound for Linux
+  get_url:
+    url={{ bloodhound_download_url }}
+    dest={{ bloodhound_dest }}
