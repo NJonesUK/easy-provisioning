@@ -1,1 +1,1 @@
-kali ansible_host=10.0.2.2 ansible_port=221 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+kali ansible_host=localhost ansible_connection=local
