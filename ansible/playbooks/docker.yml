@@ -1,0 +1,8 @@
+---
+# file: docker.yml
+- hosts: kali
+  become: yes
+  become_method: sudo
+  roles:
+    - role: njones.docker
+      tags: docker
