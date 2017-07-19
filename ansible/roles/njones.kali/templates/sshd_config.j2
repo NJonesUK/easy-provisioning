@@ -87,3 +87,13 @@ UseDNS {{ sshd_usedns }}
 KexAlgorithms {{ sshd_kexalgorithms }}
 Ciphers {{ sshd_ciphers }}
 MACs {{ sshd_macs }}
+
+Match User limited-user
+   #AllowTcpForwarding yes
+   #X11Forwarding no
+   #PermitTunnel no
+   #GatewayPorts no
+   PasswordAuthentication no
+   AllowAgentForwarding no
+   PermitOpen localhost:8888
+   ForceCommand echo 'This account can only be used for Wekan access'
