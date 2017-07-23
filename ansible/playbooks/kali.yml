@@ -6,7 +6,30 @@
   roles:
     - role: njones.kali
       tags: kali
+    - role: njones.cloudfail
+      tags: cloudfail
+    - role: njones.det
+      tags: det
+    - role: njones.eyewitness
+      tags: eyewitness
+    - role: njones.kaitai-struct
+      tags: kaitai-struct
+    - role: njones.pupy
+      tags: pupy
+    - role: njones.redsnarf
+      tags: redsnarf
+    - role: njones.routersploit
+      tags: routersploit
+    - role: njones.sparta
+      tags: sparta
+    - role: njones.spartan
+      tags: spartan
+    - role: njones.sublimetext
+      tags: sublimetext
+    - role: njones.veles
+      tags: veles
   vars:
+    - tools_dir: /tools
     - kali_packages_remove: ""
     - hostname: "njones-mwr-kali"
     - virtualbox_version: 5.1.10

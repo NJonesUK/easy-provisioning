@@ -1,0 +1,15 @@
+- name: Clone Eyewitness repository
+  git:
+    repo=https://github.com/ChrisTruncer/EyeWitness.git
+    dest={{ tools_dir }}/eyewitness
+    accept_hostkey=yes
+    version=master
+
+- name: Install Eyewitness
+  shell: "{{ tools_dir|quote }}/eyewitness/setup/setup.sh"
+
+# Temporary Fix
+- name: Revert html5lib to an earlier version
+  pip:
+    name: html5lib
+    version: 1.0b8

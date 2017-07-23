@@ -1,13 +1,13 @@
 - name: Clone RouterSploit repository
   git:
-    repo=https://github.com/reverse-shell/routersploit
-    dest=/tools/routersploit
-    accept_hostkey=yes
-    version=master
+    repo: https://github.com/reverse-shell/routersploit
+    dest: /tools/routersploit
+    accept_hostkey: yes
+    version: master
 
 - name: Install RouterSploit apt requirements
   apt:
-    name="{{ item }}"
+    name="{{item}}"
     update_cache=yes
     cache_valid_time=86400
     install-recommends=no

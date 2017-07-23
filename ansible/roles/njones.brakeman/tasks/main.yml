@@ -1,0 +1,4 @@
+- name: Gem install Brakeman
+  gem:
+    name: brakeman
+    state: latest

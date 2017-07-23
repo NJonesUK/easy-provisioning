@@ -1,0 +1,23 @@
+- name: Clone CredDump7 repository
+  git: 
+    repo: https://github.com/Neohapsis/creddump7
+    dest: /tools/creddump7
+    accept_hostkey: yes
+    version: master
+
+- name: Clone RedSnarf repository
+  git:
+    repo=https://github.com/nccgroup/redsnarf.git
+    dest=/tools/redsnarf
+    accept_hostkey=yes
+    version=master
+
+- name: Install RedSnarf pip requirements
+  pip:
+    name={{ item }}
+    state=present
+  with_items:
+    - impacket
+    - netaddr
+    - termcolor
+    - iconv

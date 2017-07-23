@@ -1,0 +1,11 @@
+- name: Download ODAT release
+  get_url:
+    url={{ odat_download_url }}
+    dest={{ tools_dir }}/odat
+    mode=0644
+
+- name: Untar ODAT release
+  unarchive:
+    src={{ odat_tarfile_name }}
+    dest={{ tools_dir }}/odat/release
+    

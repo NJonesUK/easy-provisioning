@@ -1,0 +1,219 @@
+#  - repo: https://github.com/drwetter/testssl.sh
+#    dest: testssl.sh
+#    tags: ssl, tls, ciphers
+
+tools_dir: /tools
+
+kali_templates:
+  - src: tools.txt.j2
+    dest: /tools/tools.txt
+    mode: "0644"
+
+kali_git_repositories:
+  - repo: https://github.com/PeterMosmans/security-scripts
+    dest: security-scripts
+    tags: scripts
+  - repo: https://github.com/PowerShellMafia/PowerSploit.git
+    dest: PowerSploit
+    tags: powershell, post exploitation, windows, active directory, ad, priv esc
+  - repo: https://github.com/danielmiessler/SecLists.git
+    dest: SecLists
+    tags: payloads, wordlists, exploits
+  - repo: https://github.com/trustedsec/egressbuster.git
+    dest: egressbuster
+    tags: networking, segregation
+  - repo: https://github.com/ShawnDEvans/smbmap.git
+    dest: smbmap
+    tags: smb, networking, exploitation
+  - repo: https://github.com/GDSSecurity/Windows-Exploit-Suggester.git
+    dest: windows-exploit-suggester
+    tags: windows, exploits, priv esc
+  - repo: https://github.com/EmpireProject/Empire.git
+    dest: empire
+    tags: windows, exploits, c2, rat, shell, malware, implant
+  - repo: https://github.com/EmpireProject/EmPyre
+    dest: empyre
+    tags: linux, mac, osx, c2, rat, shell, malware, implant
+  - repo: https://github.com/SpiderLabs/Responder.git
+    dest: responder
+    tags: responder
+  - repo: https://github.com/PyroTek3/PowerShell-AD-Recon.git
+    dest: PowerShell-AD-Recon
+    tags: powershell, active directory, ad, recon, domain exploitation
+  - repo: https://github.com/NetSPI/PowerUpSQL.git
+    dest: PowerUpSQL
+    tags: privesc, sql, mssql, microsoft sql server
+  - repo: https://github.com/besimorhino/powercat.git
+    dest: powercat
+    tags: powershell, networking
+  - repo: https://github.com/samratashok/nishang.git
+    dest: nishang
+    tags: powershell, post exploitation, priv esc, windows, active directory
+  - repo: https://github.com/Kevin-Robertson/Inveigh.git
+    dest: inveigh
+    tags: inveigh
+  - repo: https://github.com/nettitude/PoshC2.git
+    dest: poshc2
+    tags: powershell, c2, implant
+  - repo: https://github.com/leechristensen/UnmanagedPowerShell
+    dest: UnmanagedPowerShell
+    tags: powershell, windows
+  - repo: https://github.com/Kevin-Robertson/Invoke-TheHash.git
+    dest: Invoke-TheHash
+    tags: powershell, pth
+  - repo: https://github.com/iagox86/dnscat2.git
+    dest: dnscat2
+    tags: dns, segregation, shell, c2, networking
+  - repo: https://github.com/bidord/pykek.git
+    dest: pykek
+    tags: pykek
+  - repo: https://github.com/ernw/net.tcp-proxy.git
+    dest: net.tcp-proxy
+    tags: .net, .net-tcp, wcf
+  - repo: https://github.com/nccgroup/kube-auto-analyzer.git
+    dest: kube-auto-analyzer
+    tags: docker, kubernetes, devops
+  - repo: https://github.com/nccgroup/featherduster.git
+    dest: featherduster.git
+    tags: featherduster
+  - repo: https://github.com/nccgroup/wssip.git
+    dest: wssip
+    tags: wssip
+  - repo: https://github.com/jaredhaight/PSAttack.git
+    dest: psattack
+    tags: psattack
+  - repo: https://github.com/nidem/kerberoast.git
+    dest: kerberoast.git
+    tags: kerberos, kerberoast
+  - repo: https://github.com/putterpanda/mimikittenz.git
+    dest: mimikittenz
+    tags: mimikatz, mimikittenz
+  - repo: https://github.com/Shellntel/luckystrike.git
+    dest: luckystrike
+    tags: luckystrike
+  - repo: https://github.com/Shellntel/websocket_egress.git
+    dest: websocket_egress
+    tags: segregation, egress, exfiltration
+  - repo: https://github.com/Shellntel/scripts.git
+    dest: shellntl-scripts
+    tags: scripts
+  - repo: https://github.com/dafthack/HostRecon.git
+    dest: hostrecon
+    tags: priv esc, build review
+  - repo: https://github.com/fullmetalcache/PowerLine.git
+    dest: PowerLine
+    tags: powerline
+  - repo: https://github.com/dafthack/MailSniper.git
+    dest: mailsniper
+    tags: mail, mailsniper, ad, active directory, exchange
+  - repo: https://github.com/nccgroup/Winpayloads.git
+    dest: winpayloads
+    tags: payloads
+  - repo: https://github.com/mwrlabs/peas.git
+    dest: peas
+    tags: activesync, exchange, windows
+  - repo: https://github.com/mwrlabs/fingertec-tool.git
+    dest: fingertec-tool
+    tags: fingertec
+  - repo: https://github.com/fuzzdb-project/fuzzdb.git
+    dest: fuzzdb
+    tags: fuzzdb, payloads, injection, wordlists
+  - repo: https://github.com/maldevel/PenTestKit.git
+    dest: maldevel-pentestkit
+    tags: maldevel
+  - repo: https://github.com/Trietptm-on-Security/Bella.git
+    dest: bella
+    tags: bella, mac osx
+  - repo: https://github.com/fwaeytens/dnsenum.git
+    dest: dnsenum
+    tags: dns, recon, enumeration
+  - repo: https://github.com/internetwache/GitTools.git
+    dest: gittools
+    tags: general
+  - repo: https://github.com/techgaun/github-dorks.git
+    dest: github-dorks
+    tags: github, git
+  - repo: https://github.com/longld/peda.git
+    dest: peda
+    tags: exploit dev, python, gdb
+  - repo: https://bitbucket.org/LaNMaSteR53/recon-ng.git
+    dest: recon-ng
+    tags: osint, recon
+  - repo: https://github.com/mwrlabs/wePWNise.git
+    dest: wepwnise
+    tags: payloads, red team
+  - repo: https://github.com/samratashok/nishang.git
+    dest: nishang
+    tags: powershell
+  - repo: https://github.com/makefu/dnsmap.git
+    dest: dnsmap
+    tags: dns
+  - repo: https://github.com/infoassure/dumpntds.git
+    dest: dumpntds
+    tags: ad, active directory
+  - repo: https://github.com/foospidy/payloads.git
+    dest: foospidy-payloads
+    tags: payloads
+  - repo: https://github.com/CISOfy/lynis.git
+    dest: lynis
+    tags: build reviews
+  - repo: https://github.com/sektioneins/pcc.git
+    dest: php-config-check
+    tags: php, build reviews
+  - repo: https://github.com/lukebaggett/dnscat2-powershell.git
+    dest: dnscat2-powershell
+    tags: data exfiltration, powershell, dns
+  - repo: https://github.com/GoFetchAD/GoFetch.git
+    dest: gofetch
+    tags: gofetch, ad, active directory, red team
+  - repo: https://github.com/keeweb/keeweb.git
+    dest: keeweb
+    tags: passwords
+  - repo: https://github.com/mwielgoszewski/python-paddingoracle.git
+    dest: python-paddingoracle
+    tags: crypto, padding oracle
+  - repo: https://github.com/GDSSecurity/PadBuster.git
+    dest: padbuster
+    tags: crypto, padding oracle
+  - repo: https://github.com/emptymonkey/revsh
+    dest: revsh
+    tags: shell, payloads
+  - repo: https://github.com/mdsecactivebreach/Chameleon.git
+    dest: chameleon
+    tags: tas, domains, proxy evasion
+  - repo: https://github.com/D35m0nd142/LFISuite.git
+    dest: lfisuite
+    tags: web, lfi, scanner
+  - repo: https://github.com/vletoux/NTLMInjector.git
+    dest: ntlminjector
+    tags: powershell, ntlm, domain exploitation
+  - repo: https://github.com/nccgroup/WMIcmd.git
+    dest: wmicmd
+    tags: wmi, windows, command exec, priv esc, lateral movement, NEEDS COMPILING
+  - repo: https://github.com/GreatSCT/GreatSCT.git
+    dest: greatsct
+    tags: app whitelisting, whitelisting bypass
+  - repo: https://github.com/berzerk0/Probable-Wordlists.git
+    dest: probable-wordlists
+    tags: wordlists, passwords
+  - repo: https://github.com/CyberArkLabs/ACLight.git
+    dest: aclight
+    tags: windows, powershell, priv esc
+  - repo: https://github.com/hlldz/Invoke-Phant0m
+    dest: invoke-phant0m
+    tags: powershell, logs, windows, events
+  - repo: https://github.com/mdsecresearch/LyncSniper.git
+    dest: lyncsniper
+    tags: lync, skype, powershell
+  - repo: https://github.com/govolution/betterdefaultpasslist.git
+    dest: betterdefaultpasslist
+    tags: wordlists, passwords
+  - repo: https://github.com/trailofbits/manticore.git
+    dest: manticore
+    tags: reverse engineering, analysis
+  - repo: https://github.com/emptymonkey/drinkme
+    dest: drinkme
+    tags: shellcode
+  - repo: https://github.com/docker/docker-bench-security.git
+    dest: docker-bench-security
+    tags: docker, audit, build review, privesc
