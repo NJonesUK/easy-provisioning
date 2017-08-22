@@ -1,0 +1,19 @@
+- name: Install docker-py
+  pip:
+    name: docker-py
+  become: yes
+
+- name: pull splash image
+  docker_image:
+    name: scrapinghub/splash
+
+- name: Install detectem in the container
+  docker_container:
+    name: detectem
+    image: scrapinghub/splash
+    command: ["pip", "install detectem"]
+
+- name: Stop the container
+  docker_container:
+    name: detectem
+    state: stopped

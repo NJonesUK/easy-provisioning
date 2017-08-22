@@ -97,17 +97,6 @@
 #   tags:
 #     - files
 
-- name: Copy common files
-  copy:
-    src={{ item.src }}
-    dest={{ item.dest }}
-    mode={{ item.mode }}
-    force={{ item.force|default("yes") }}
-  with_items:
-    - "{{ kali_files|default([]) }}"
-  tags:
-    - files
-
 - name: Apply / deploy common templates
   template:
     src={{ item.src }}

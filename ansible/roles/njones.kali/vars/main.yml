@@ -68,9 +68,11 @@ kali_git_info_repositories:
   - repo: https://github.com/jshaw87/Cheatsheets
     dest: /docs/cheatsheets-jshaw87
   - repo: https://github.com/konstruktoid/hardening
-    dest: hardening-ubuntu
+    dest: /docs/hardening-ubuntu
   - repo: https://github.com/leostat/rtfm
-    dest: rtfm
+    dest: /docs/rtfm
+  - repo: https://github.com/vysec/RedTips.git
+    dest: /docs/vysec-redtips
 kali_binary_downloads:
   - url: http://www.ampliasecurity.com/research/wce_v1_42beta_x64.zip
     dest: binaries/wce_v1_42beta_x64.zip
@@ -86,6 +88,8 @@ kali_binary_downloads:
     dest: binaries/hashcat-3.6.0.7z
   - url: https://github.com/AlessandroZ/LaZagne/releases/download/2.2/Windows.zip
     dest: binaries/LaZagne-2.2-windows.zip
+  - url: https://github.com/summitt/Burp-Non-HTTP-Extension/releases/download/v1.5/NopeProxy.jar
+    dest: binaries/NopeProxy.jar
 #  - url: https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar
 #    dest: binaries/ysoserial-master.jar
   # - url: https://github.com/vulnersCom/burp-vulners-scanner/releases/download/1.1/burp-vulners-scanner-1.1.jar
